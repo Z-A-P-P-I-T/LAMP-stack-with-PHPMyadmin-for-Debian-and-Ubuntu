@@ -40,6 +40,8 @@ chmod +x uninstall.sh
 sudo ./uninstall.sh
 ```
 
+The uninstall script will ask before removing UFW rules for ports 80/443.
+
 ## Author
 
 Created by Kimi Autto (github.com/Z-A-P-P-I-T)
