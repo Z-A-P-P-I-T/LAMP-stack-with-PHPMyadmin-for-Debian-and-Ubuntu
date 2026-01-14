@@ -10,11 +10,22 @@ if [[ ! "$confirm" =~ ^[Yy]$ ]]; then
     exit 0
 fi
 
-sudo systemctl stop apache2 || true
-sudo systemctl stop mariadb || true
+if systemctl list-unit-files --type=service | awk '{print $1}' | grep -qx "apache2.service"; then
+    sudo systemctl stop apache2 || true
+fi
+if systemctl list-unit-files --type=service | awk '{print $1}' | grep -qx "mariadb.service"; then
+    sudo systemctl start mariadb || true
+fi
 
-sudo apt purge -y apache2* mariadb-server mariadb-client php* phpmyadmin
-sudo apt autoremove -y
+sudo apt-get purge -y \
+    apache2 apache2-utils \
+    libapache2-mod-php* \
+    mariadb-server mariadb-client \
+    php php-cli php-common php-mysql php-opcache php-json php-xml php-curl php-zip php-mbstring \
+    phpmyadmin || true
+
+sudo apt-get -y -f install || true
+sudo apt-get autoremove -y || true
 
 read -r -p "Remove UFW rules for ports 80/443? (y/N): " remove_ufw
 if [[ "$remove_ufw" =~ ^[Yy]$ ]]; then

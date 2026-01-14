@@ -41,6 +41,11 @@ sudo ./uninstall.sh
 ```
 
 The uninstall script will ask before removing UFW rules for ports 80/443.
+If apt reports dependency errors, run:
+
+```bash
+sudo apt-get -f install
+```
 
 ## Author
 
