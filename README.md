@@ -1,7 +1,38 @@
-# LAMP-stack-with-PHPMyadmin-for-Debian-and-Ubuntu
+# LAMP Stack + phpMyAdmin (Debian/Ubuntu)
 
-This script will install a LAMP stack server with PHPMyadmin on a Debian or Ubuntu distro.
+A simple setup script that installs Apache, MariaDB, PHP, and phpMyAdmin on Debian/Ubuntu.
 
-Usage: remember to chmod +x your LAMP-Stack shell script. (chmod +x LAMP-stack.sh)
+## What It Installs
 
-run = sudo ./LAMP-stack.sh
+- Apache (`apache2`)
+- PHP (default distro version + common extensions)
+- MariaDB (`mariadb-server`, `mariadb-client`)
+- phpMyAdmin
+- UFW rules for ports 22, 80, 443
+
+## Requirements
+
+- Debian/Ubuntu
+- `sudo` access
+
+## Quick Start
+
+```bash
+chmod +x LAMP-stack.sh
+sudo ./LAMP-stack.sh
+```
+
+The script will:
+1. Update packages (optionally upgrade + autoremove)
+2. Configure UFW
+3. Install Apache, PHP, MariaDB, phpMyAdmin
+4. Create `/var/www/html/phpinfo.php`
+
+## Notes
+
+- phpMyAdmin installation prompts may appear (web server selection and database config).
+- `phpinfo.php` is created for testing; remove it on production systems.
+
+## Author
+
+Created by Kimi Autto (github.com/Z-A-P-P-I-T)

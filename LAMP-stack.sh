@@ -1,4 +1,7 @@
 #!/bin/bash
+set -o errexit
+set -o nounset
+set -o pipefail
 clear
 echo "
 
@@ -46,7 +49,15 @@ echo "
                               \_)    ) /
                                     (_/
 "
-sudo apt update && sudo apt upgrade -f -y
+sudo apt update
+read -r -p "Run full system upgrade? (y/N): " do_upgrade
+if [[ "$do_upgrade" =~ ^[Yy]$ ]]; then
+    sudo apt upgrade -y
+fi
+read -r -p "Remove unneeded packages (autoremove)? (y/N): " do_autoremove
+if [[ "$do_autoremove" =~ ^[Yy]$ ]]; then
+    sudo apt autoremove -y
+fi
 sleep 2
 clear
  
@@ -81,7 +92,7 @@ echo "
 sudo ufw allow ssh
 sudo ufw allow 80
 sudo ufw allow 443
-sudo ufw enable
+sudo ufw --force enable
  
 sleep 2
 clear
@@ -114,9 +125,9 @@ echo "
                                     (_/
 "
 sleep 2
-sudo systemctl stop apache2 -f
+sudo systemctl stop apache2
 sleep 4
-sudo apt install apache2 -f -y
+sudo apt install -y apache2
  
 #sudo xdg-open http://localhost/
  
@@ -136,7 +147,7 @@ echo "
                                     (_/
 "
 sleep 2
-sudo apt install php7.4 php7.4-mysql php-common php7.4-cli php7.4-json php7.4-common php7.4-opcache libapache2-mod-php7.4 -y
+sudo apt install -y php php-mysql php-cli php-json php-common php-opcache libapache2-mod-php
  
 sleep 2
 clear
@@ -153,7 +164,7 @@ echo "
                                     (_/
 "
 php --version
-echo '<?php phpinfo(); ?>' | sudo tee -a /var/www/html/phpinfo.php > /dev/null
+echo '<?php phpinfo(); ?>' | sudo tee /var/www/html/phpinfo.php > /dev/null
  
 sleep 2
 clear
@@ -170,9 +181,7 @@ echo "
                               \_)    ) /
                                     (_/
 "
-sudo systemctl stop apache2
-sleep 5
-sudo systemctl start apache2
+sudo systemctl restart apache2
 sleep 5
  
 clear
@@ -206,7 +215,7 @@ echo "
 "
 sleep 2
  
-sudo apt install mariadb-server mariadb-client -y
+sudo apt install -y mariadb-server mariadb-client
 sleep 2
 clear
 echo "
@@ -257,7 +266,7 @@ echo "
                                     (_/
 "
  
-sudo apt install phpmyadmin -f -y
+sudo apt install -y phpmyadmin
 sleep 2
 clear
  
