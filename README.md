@@ -33,6 +33,13 @@ The script will:
 - phpMyAdmin installation prompts may appear (web server selection and database config).
 - `phpinfo.php` is created for testing; remove it on production systems.
 
+## Uninstall
+
+```bash
+chmod +x uninstall.sh
+sudo ./uninstall.sh
+```
+
 ## Author
 
 Created by Kimi Autto (github.com/Z-A-P-P-I-T)
